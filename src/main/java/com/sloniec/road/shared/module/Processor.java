@@ -1,5 +1,8 @@
 package com.sloniec.road.shared.module;
 
+import static com.sloniec.road.shared.Params.getFilterSwitchRecordsPerRegion;
+import static com.sloniec.road.shared.Params.getFilterValueRecordsPerRegion;
+
 import com.sloniec.road.framework.IProcessor;
 import com.sloniec.road.shared.Params;
 import com.sloniec.road.shared.commons.FileCommons;
@@ -9,7 +12,6 @@ import com.sloniec.road.shared.commons.SpeedCommons;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import com.sloniec.road.shared.result.SingeSpeedResult;
 import com.sloniec.road.shared.result.SpeedProcessingResult;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -29,11 +31,11 @@ public class Processor implements IProcessor {
         System.out.println("Liczba danych do procesowania: " + files.size());
 
         List<SpeedProcessingResult> results = files.stream()
-                .map(this::processFile)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+            .map(this::processFile)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
 
-        if (Params.getFilterSwitch()) {
+        if (getFilterSwitchRecordsPerRegion()) {
             System.out.println("Liczba odrzucownych wynikow: " + incorrectResults);
         }
         return results;
@@ -63,11 +65,11 @@ public class Processor implements IProcessor {
     }
 
     private SpeedProcessingResult verifyResult(SpeedProcessingResult result) {
-        if (Params.getFilterSwitch()) {
-            Double maxResults = Params.getFilterValue();
+        if (getFilterSwitchRecordsPerRegion()) {
+            Double maxResults = getFilterValueRecordsPerRegion();
             boolean correctResultNumber = result.getBeforeSpeeds().size() < maxResults
-                    && result.getDuringSpeeds().size() < maxResults
-                    && result.getDuringSpeeds().size() < maxResults;
+                && result.getDuringSpeeds().size() < maxResults
+                && result.getDuringSpeeds().size() < maxResults;
 
             if (correctResultNumber) {
                 return result;

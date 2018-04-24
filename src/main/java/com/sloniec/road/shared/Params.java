@@ -1,13 +1,12 @@
 package com.sloniec.road.shared;
 
-import com.sloniec.road.framework.ModuleType;
+import static java.nio.file.Files.newBufferedReader;
 
+import com.sloniec.road.framework.ModuleType;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
-
-import static java.nio.file.Files.newBufferedReader;
 
 public class Params extends Properties {
 
@@ -21,8 +20,10 @@ public class Params extends Properties {
     private static Area afterArea;
     private static Double step;
     private static String rootPath;
-    private static Boolean filterSwitch;
-    private static Double filterValue;
+    private static Boolean filterSwitchRecordsPerRegion;
+    private static Double filterValueRecordsPerRegion;
+    private static Boolean filterSwitchTimeDistance;
+    private static Double filterValueTimeDistance;
 
     public static Params getInstance() {
         if (instance == null) {
@@ -67,12 +68,21 @@ public class Params extends Properties {
             xmlDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         }
 
-        filterSwitch = Boolean.valueOf(getProperty("filter_swich"));
+        filterSwitchRecordsPerRegion = Boolean.valueOf(getProperty("filter_switch_records_per_region"));
 
         try {
-            filterValue = Double.valueOf(getProperty("filter_value"));
+            filterValueRecordsPerRegion = Double.valueOf(getProperty("filter_value_records_per_region"));
         } catch (NullPointerException | NumberFormatException ex) {
-            System.out.println("BLAD: niepoprawna wartosc w parametrze 'filter_value'");
+            System.out.println("BLAD: niepoprawna wartosc w parametrze 'filter_value_records_per_region'");
+            System.exit(0);
+        }
+
+        filterSwitchTimeDistance = Boolean.valueOf(getProperty("filter_switch_time_distance"));
+
+        try {
+            filterValueTimeDistance = Double.valueOf(getProperty("filter_value_time_distance"));
+        } catch (NullPointerException | NumberFormatException ex) {
+            System.out.println("BLAD: niepoprawna wartosc w parametrze 'filter_value_time_distance'");
             System.exit(0);
         }
     }
@@ -110,11 +120,19 @@ public class Params extends Properties {
         return xmlDateFormat;
     }
 
-    public static Boolean getFilterSwitch() {
-        return filterSwitch;
+    public static Boolean getFilterSwitchRecordsPerRegion() {
+        return filterSwitchRecordsPerRegion;
     }
 
-    public static Double getFilterValue() {
-        return filterValue;
+    public static Double getFilterValueRecordsPerRegion() {
+        return filterValueRecordsPerRegion;
+    }
+
+    public static Boolean getFilterSwitchTimeDistance() {
+        return filterSwitchTimeDistance;
+    }
+
+    public static Double getFilterValueTimeDistance() {
+        return filterValueTimeDistance;
     }
 }

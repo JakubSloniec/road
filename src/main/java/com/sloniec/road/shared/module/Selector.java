@@ -1,13 +1,17 @@
 package com.sloniec.road.shared.module;
 
+import static com.sloniec.road.shared.Params.getFilterSwitchTimeDistance;
+import static com.sloniec.road.shared.Params.getFilterValueTimeDistance;
+import static com.sloniec.road.shared.commons.TimeCommons.seconds;
+
 import com.sloniec.road.framework.ISelector;
 import com.sloniec.road.shared.Params;
 import com.sloniec.road.shared.commons.GpxFileReader;
 import com.sloniec.road.shared.commons.PointInAreaCommons;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import org.xml.sax.SAXParseException;
 
 public class Selector implements ISelector {
 
@@ -20,16 +24,17 @@ public class Selector implements ISelector {
 
     @Override
     public List<String> select(String folder) {
-        List<String> selectedFiles = selectFiles(folder);
-        return selectedFiles;
+        return selectFiles(folder);
     }
 
 
-    public List<String> selectFiles(String folder) {
+    private List<String> selectFiles(String folder) {
         List<String> files = fileReader.listFolderFiles(folder);
         System.out.println("Liczba orginalnych danych: " + files.size());
 
         List<String> selectedFiles = files.stream()
+            .filter(this::isFileSuccessfullyParsed)
+            .filter(this::isTotalTimeDistanceNotTooGreat)
             .filter(this::hasFilePointInPolygons)
             .collect(Collectors.toList());
 
@@ -37,7 +42,30 @@ public class Selector implements ISelector {
         return selectedFiles;
     }
 
-    public boolean hasFilePointInPolygons(String file) {
+    private boolean isFileSuccessfullyParsed(String file) {
+        try {
+            fileReader.readFile(file);
+        } catch (SAXParseException e) {
+            System.out.println("BLAD WCZYTYWANIA PLIKU: " + file);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isTotalTimeDistanceNotTooGreat(String file) {
+        if (getFilterSwitchTimeDistance()) {
+            List<Waypoint> waypoints = fileReader.getWaypoints(file);
+            Double maxTimeDistance = getFilterValueTimeDistance();
+
+            if (seconds(waypoints.get(0), waypoints.get(waypoints.size() - 1)) > maxTimeDistance) {
+                System.out.println("Trasa powyzej " + maxTimeDistance + "s w pliku " + file);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean hasFilePointInPolygons(String file) {
         List<Waypoint> waypoints = fileReader.getWaypoints(file);
         Waypoint przed = pointInAreaChecker.getFirstPointInArea(Params.getBeforeArea(), waypoints);
         if (przed == null) {
