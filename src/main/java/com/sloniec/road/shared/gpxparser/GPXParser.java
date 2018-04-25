@@ -1,16 +1,29 @@
 package com.sloniec.road.shared.gpxparser;
 
 import com.sloniec.road.shared.gpxparser.extension.IExtensionParser;
-import com.sloniec.road.shared.gpxparser.modal.*;
+import com.sloniec.road.shared.gpxparser.modal.Bounds;
+import com.sloniec.road.shared.gpxparser.modal.Copyright;
+import com.sloniec.road.shared.gpxparser.modal.Email;
+import com.sloniec.road.shared.gpxparser.modal.GPX;
+import com.sloniec.road.shared.gpxparser.modal.Link;
+import com.sloniec.road.shared.gpxparser.modal.Metadata;
+import com.sloniec.road.shared.gpxparser.modal.Person;
+import com.sloniec.road.shared.gpxparser.modal.Route;
+import com.sloniec.road.shared.gpxparser.modal.Track;
+import com.sloniec.road.shared.gpxparser.modal.TrackSegment;
+import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import com.sloniec.road.shared.gpxparser.type.Fix;
-import org.w3c.dom.*;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Iterator;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * <p>
@@ -19,16 +32,11 @@ import java.util.Iterator;
  * <br>
  * Usage for parsing a gpx file into a {@link GPX} object:<br>
  * <code>
- * GPXParser p = new GPXParser();<br>
- * FileInputStream in = new FileInputStream("inFile.gpx");<br>
- * GPX gpx = p.parseGPX(in);<br>
+ * GPXParser p = new GPXParser();<br> FileInputStream in = new FileInputStream("inFile.gpx");<br> GPX gpx = p.parseGPX(in);<br>
  * </code> <br>
  * Usage for writing a {@link GPX} object to a file:<br>
  * <code>
- * GPXParser p = new GPXParser();<br>
- * FileOutputStream out = new FileOutputStream("outFile.gpx");<br>
- * p.writeGPX(gpx, out);<br>
- * out.close();<br>
+ * GPXParser p = new GPXParser();<br> FileOutputStream out = new FileOutputStream("outFile.gpx");<br> p.writeGPX(gpx, out);<br> out.close();<br>
  * </code>
  */
 public class GPXParser extends BaseGPX {
@@ -37,9 +45,7 @@ public class GPXParser extends BaseGPX {
      * Parses a stream containing GPX data
      *
      * @param in the prepare stream
-     * @return {@link GPX} object containing parsed data, or null if no gpx data
-     * was found in the seream
-     * @throws Exception
+     * @return {@link GPX} object containing parsed data, or null if no gpx data was found in the seream
      */
     public GPX parseGPX(InputStream in) throws Exception {
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -135,9 +141,7 @@ public class GPXParser extends BaseGPX {
                         m.setBounds(bounds);
                     }
                 } else if (GPXConstants.NODE_EXTENSIONS.equals(currentNode.getNodeName())) {
-                    Iterator<IExtensionParser> it = extensionParsers.iterator();
-                    while (it.hasNext()) {
-                        IExtensionParser parser = it.next();
+                    for (IExtensionParser parser : extensionParsers) {
                         Object data = parser.parseExtensions(currentNode);
                         m.addExtensionData(parser.getId(), data);
                     }
@@ -181,7 +185,7 @@ public class GPXParser extends BaseGPX {
             return null;
         }
 
-        Copyright c = new Copyright(null);
+        Copyright c = new Copyright();
 
         NamedNodeMap attrs = node.getAttributes();
 
@@ -291,7 +295,7 @@ public class GPXParser extends BaseGPX {
         // check for lat attribute
         Node latNode = attrs.getNamedItem(GPXConstants.ATTR_LAT);
         if (latNode != null) {
-            Double latVal = null;
+            Double latVal;
             latVal = Double.parseDouble(latNode.getNodeValue());
             w.setLatitude(latVal);
         } else {
@@ -346,13 +350,11 @@ public class GPXParser extends BaseGPX {
                 } else if (GPXConstants.NODE_PDOP.equals(currentNode.getNodeName())) {
                     w.setPdop(getNodeValueAsDouble(currentNode));
                 } else if (GPXConstants.NODE_AGEOFGPSDATA.equals(currentNode.getNodeName())) {
-                    w.setAgeOfGPSData(getNodeValueAsDouble(currentNode));
+                    w.setAgeOfGpsData(getNodeValueAsDouble(currentNode));
                 } else if (GPXConstants.NODE_DGPSID.equals(currentNode.getNodeName())) {
-                    w.setdGpsStationId(getNodeValueAsInteger(currentNode));
+                    w.setDGpsStationId(getNodeValueAsInteger(currentNode));
                 } else if (GPXConstants.NODE_EXTENSIONS.equals(currentNode.getNodeName())) {
-                    Iterator<IExtensionParser> it = extensionParsers.iterator();
-                    while (it.hasNext()) {
-                        IExtensionParser parser = it.next();
+                    for (IExtensionParser parser : extensionParsers) {
                         Object data = parser.parseExtensions(currentNode);
                         w.addExtensionData(parser.getId(), data);
                     }
@@ -488,7 +490,7 @@ public class GPXParser extends BaseGPX {
         return ts;
     }
 
-    private Date getNodeValueAsDate(Node node) throws DOMException, ParseException {
+    private Date getNodeValueAsDate(Node node) throws DOMException {
         Date val = null;
         try {
             val = xmlDateFormat.parse(node.getFirstChild().getNodeValue()

@@ -1,20 +1,14 @@
 package com.sloniec.road.shared.gpxparser.modal;
 
 import java.util.ArrayList;
+import lombok.Getter;
+import lombok.Setter;
 
-/**
- * Created by Himanshu on 7/5/2015.
- */
+@Getter
+@Setter
 public class TrackSegment extends Extension {
+
     private ArrayList<Waypoint> waypoints;
-
-    public ArrayList<Waypoint> getWaypoints() {
-        return waypoints;
-    }
-
-    public void setWaypoints(ArrayList<Waypoint> waypoints) {
-        this.waypoints = waypoints;
-    }
 
     public void addWaypoint(Waypoint wp) {
         if (waypoints == null) {
@@ -22,5 +16,4 @@ public class TrackSegment extends Extension {
         }
         waypoints.add(wp);
     }
-
 }

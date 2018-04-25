@@ -1,23 +1,16 @@
 package com.sloniec.road.shared.gpxparser.modal;
 
 import java.util.ArrayList;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-/**
- * Created by Himanshu on 7/5/2015.
- */
+@NoArgsConstructor
+@Getter
+@Setter
 public class PointSegment {
+
     private ArrayList<Point> points;
-
-    public PointSegment() {
-    }
-
-    public ArrayList<Point> getPoints() {
-        return points;
-    }
-
-    public void setPoints(ArrayList<Point> points) {
-        this.points = points;
-    }
 
     public void addPoint(Point point) {
         if (points == null) {

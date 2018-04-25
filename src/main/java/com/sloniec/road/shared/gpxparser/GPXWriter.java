@@ -1,11 +1,19 @@
 package com.sloniec.road.shared.gpxparser;
 
 import com.sloniec.road.shared.gpxparser.extension.IExtensionParser;
-import com.sloniec.road.shared.gpxparser.modal.*;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
+import com.sloniec.road.shared.gpxparser.modal.Bounds;
+import com.sloniec.road.shared.gpxparser.modal.Copyright;
+import com.sloniec.road.shared.gpxparser.modal.Email;
+import com.sloniec.road.shared.gpxparser.modal.Extension;
+import com.sloniec.road.shared.gpxparser.modal.GPX;
+import com.sloniec.road.shared.gpxparser.modal.Link;
+import com.sloniec.road.shared.gpxparser.modal.Metadata;
+import com.sloniec.road.shared.gpxparser.modal.Person;
+import com.sloniec.road.shared.gpxparser.modal.Route;
+import com.sloniec.road.shared.gpxparser.modal.Track;
+import com.sloniec.road.shared.gpxparser.modal.TrackSegment;
+import com.sloniec.road.shared.gpxparser.modal.Waypoint;
+import java.io.OutputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -14,8 +22,9 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.OutputStream;
-import java.util.Iterator;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 public class GPXWriter extends BaseGPX {
 
@@ -167,9 +176,8 @@ public class GPXWriter extends BaseGPX {
         addExtensionToNode(rte, rteNode, doc);
 
         if (rte.getRoutePoints() != null) {
-            Iterator<Waypoint> it = rte.getRoutePoints().iterator();
-            while (it.hasNext()) {
-                addWaypointToNode(GPXConstants.NODE_RTEPT, it.next(), rteNode, doc);
+            for (Waypoint waypoint : rte.getRoutePoints()) {
+                addWaypointToNode(GPXConstants.NODE_RTEPT, waypoint, rteNode, doc);
             }
         }
         gpxNode.appendChild(rteNode);
@@ -268,14 +276,14 @@ public class GPXWriter extends BaseGPX {
             node.appendChild(doc.createTextNode(String.valueOf(wpt.getPdop())));
             wptNode.appendChild(node);
         }
-        if (wpt.getAgeOfGPSData() != 0) {
+        if (wpt.getAgeOfGpsData() != 0) {
             Node node = doc.createElement(GPXConstants.NODE_AGEOFGPSDATA);
-            node.appendChild(doc.createTextNode(String.valueOf(wpt.getAgeOfGPSData())));
+            node.appendChild(doc.createTextNode(String.valueOf(wpt.getAgeOfGpsData())));
             wptNode.appendChild(node);
         }
-        if (wpt.getdGpsStationId() != 0) {
+        if (wpt.getDGpsStationId() != 0) {
             Node node = doc.createElement(GPXConstants.NODE_DGPSID);
-            node.appendChild(doc.createTextNode(String.valueOf(wpt.getdGpsStationId())));
+            node.appendChild(doc.createTextNode(String.valueOf(wpt.getDGpsStationId())));
             wptNode.appendChild(node);
         }
         addExtensionToNode(wpt, wptNode, doc);

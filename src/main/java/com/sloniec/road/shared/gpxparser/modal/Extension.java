@@ -2,6 +2,8 @@
 package com.sloniec.road.shared.gpxparser.modal;
 
 import java.util.HashMap;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * This class holds generic extension information from any node that can have extensions defined.
@@ -12,29 +14,17 @@ import java.util.HashMap;
  * <p>Multiple extension parsers can be used when parsing. Every extension parser defines
  * an unique id that will be used as a HashMap key for the parsed object values.</p>
  */
+@Getter
+@Setter
 public class Extension {
+
     protected HashMap<String, Object> extensionData;
-
-    public HashMap<String, Object> getExtensionData() {
-        return extensionData;
-    }
-
-    /**
-     * Setter for extension HashMap.
-     *
-     * @param extensionData - A HashMap with extensions parser ids as keys and parsed objects as values.
-     */
-    public void setExtensionData(HashMap<String, Object> extensionData) {
-        this.extensionData = extensionData;
-    }
-
 
     /**
      * Adds a new parsed extension object into the extension data with the key set by parserId.
      *
      * @param parserId a unique key representing the id of he extension parser used.
-     * @param data     an object holding the parsed information. This can be any object type and it is
-     *                 the extension parser's job to set it properly.
+     * @param data an object holding the parsed information. This can be any object type and it is the extension parser's job to set it properly.
      */
     public void addExtensionData(String parserId, Object data) {
         if (extensionData == null) {
