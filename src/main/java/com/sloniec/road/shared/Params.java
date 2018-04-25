@@ -33,14 +33,20 @@ public class Params extends Properties {
     }
 
     private Params() {
+    }
+
+    public void init(String[] args) {
+        if (args.length != 1) {
+            System.out.println("Nieprawne wywolanie programu!");
+            System.exit(0);
+        }
+
         try {
-            load(newBufferedReader(Paths.get("config.properties")));
+            load(newBufferedReader(Paths.get(args[0])));
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
-    public void init() {
         try {
             moduleType = ModuleType.valueOf(getProperty("modul"));
         } catch (IllegalArgumentException e) {
