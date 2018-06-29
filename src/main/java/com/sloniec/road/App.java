@@ -1,7 +1,7 @@
 package com.sloniec.road;
 
 import com.sloniec.road.framework.ModuleRunner;
-import com.sloniec.road.shared.Params;
+import com.sloniec.road.shared.Context;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
@@ -11,8 +11,8 @@ public class App {
     public static void main(String[] args) throws IOException {
         System.out.println("Rozpoczeto prace programu.");
         Instant start = Instant.now();
-        Params params = Params.getInstance();
-        params.init(args);
+        Context context = Context.getInstance();
+        context.init(args);
 
         ModuleRunner runner = new ModuleRunner();
         runner.run();

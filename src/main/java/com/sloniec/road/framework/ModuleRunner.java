@@ -1,7 +1,11 @@
 package com.sloniec.road.framework;
 
-import com.sloniec.road.shared.Params;
+import static com.sloniec.road.shared.Context.getDataLocation;
+import static com.sloniec.road.shared.Context.getDataSource;
+import static com.sloniec.road.shared.Context.getProcessingType;
 
+import com.sloniec.road.framework.config.RunSetup;
+import com.sloniec.road.shared.Context;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -14,27 +18,27 @@ public class ModuleRunner {
     private ISaver saver;
 
     public ModuleRunner() {
-        ModuleType moduleType = Params.getModuleType();
-        System.out.println("Wybrany modul: " + moduleType.name());
+        RunSetup runSetup = Context.getRunSetup();
+        System.out.println("Wybrane opcje: " + getDataSource() + ", " + getProcessingType());
 
-        preparator = moduleType.getPreparator();
-        selector = moduleType.getSelector();
-        processor = moduleType.getProcessor();
-        saver = moduleType.getSaver();
+        preparator = runSetup.getPreparator();
+        selector = runSetup.getSelector();
+        processor = runSetup.getProcessor();
+        saver = runSetup.getSaver();
     }
 
     public void run() {
         Instant start;
 
         start = begin("przygotowanie danych");
-        String prepareOutput = preparator.prepare(Params.getDataLocation());
+        String prepareOutput = preparator.prepare(getDataLocation());
         end("przygowanie danych", start);
 
         start = begin("wybieranie danych");
         List<String> selectOutput = selector.select(prepareOutput);
         end("wybieranie danych", start);
 
-        start = begin("procesowanie danych...");
+        start = begin("procesowanie danych");
         List<? extends IResult> processOutput = processor.process(selectOutput);
         end("procesowanie danych", start);
 

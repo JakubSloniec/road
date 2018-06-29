@@ -1,7 +1,8 @@
 package com.sloniec.road.shared;
 
-import com.sloniec.road.shared.gpxparser.modal.Waypoint;
+import static com.sloniec.road.shared.commons.GPXCommons.stringToPoint;
 
+import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,13 +24,6 @@ public class Area {
         this(stringToPoint(a), stringToPoint(b), stringToPoint(c), stringToPoint(d));
     }
 
-    private static Waypoint stringToPoint(String s) {
-        String[] split = s.split(",");
-        double lat = Double.valueOf(split[0]);
-        double lon = Double.valueOf(split[1]);
-        return new Waypoint(lat, lon);
-    }
-
     public List<Waypoint> toList() {
         return Arrays.asList(a, b, c, d);
     }
@@ -37,10 +31,10 @@ public class Area {
     @Override
     public String toString() {
         return "Area{" +
-                "a=" + a +
-                ", b=" + b +
-                ", c=" + c +
-                ", d=" + d +
-                '}';
+            "a=" + a +
+            ", b=" + b +
+            ", c=" + c +
+            ", d=" + d +
+            '}';
     }
 }

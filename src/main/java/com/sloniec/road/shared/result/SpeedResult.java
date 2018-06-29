@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class SpeedProcessingResult implements IResult {
+public class SpeedResult implements IResult {
 
     private String file;
     private Waypoint beginningWaypoint;
@@ -20,7 +20,7 @@ public class SpeedProcessingResult implements IResult {
     private List<SingeSpeedResult> duringSpeeds;
     private List<SingeSpeedResult> afterSpeeds;
 
-    public SpeedProcessingResult(String file, Double step, Waypoint beginningWaypoint) {
+    public SpeedResult(String file, Double step, Waypoint beginningWaypoint) {
         this.file = file;
         this.step = step;
         this.beginningWaypoint = beginningWaypoint;

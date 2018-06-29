@@ -1,6 +1,6 @@
 package com.sloniec.road.shared.gpxparser;
 
-import com.sloniec.road.shared.Params;
+import com.sloniec.road.shared.Context;
 import com.sloniec.road.shared.gpxparser.extension.IExtensionParser;
 
 import java.text.SimpleDateFormat;
@@ -9,7 +9,7 @@ import java.util.TimeZone;
 
 class BaseGPX {
 
-    final SimpleDateFormat xmlDateFormat = Params.getXmlDateFormat();
+    final SimpleDateFormat xmlDateFormat = Context.getXmlDateFormat();
     final ArrayList<IExtensionParser> extensionParsers = new ArrayList<>();
 
     BaseGPX() {
