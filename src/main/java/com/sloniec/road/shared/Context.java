@@ -78,7 +78,7 @@ public class Context extends Properties {
 
     private void loadPropertyFile(String[] args) {
         if (args.length != 1) {
-            System.out.println("Nieprawne wywolanie programu!");
+            System.out.println("Niepoprawne wywolanie programu!");
             System.exit(0);
         }
 
