@@ -9,16 +9,29 @@ import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public abstract class Saver implements ISaver {
+public abstract class AbstractSaver<T extends IResult> implements ISaver<T> {
 
     @Override
-    public void save(List<? extends IResult> results) {
+    public void save(List<T> results) {
         List<List<String>> stringResults = resultsToString(results);
         String outputFile = outputFile();
         CSVCommons.toCSV(outputFile, header(), stringResults);
         System.out.println("Wyniki zostaly zapisane do pliku: " + outputFile);
     }
+
+    @Override
+    public List<List<String>> resultsToString(List<T> results) {
+        return results.stream()
+            .map(this::resultToString)
+            .flatMap(List::stream)
+            .collect(Collectors.toList());
+    }
+
+    protected abstract List<List<String>> resultToString(T result);
+
+    protected abstract List<String> header();
 
     @Override
     public String outputFile() {

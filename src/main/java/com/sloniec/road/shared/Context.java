@@ -199,6 +199,10 @@ public class Context extends Properties {
         return afterArea;
     }
 
+    public static Segment getGate() {
+        return gate;
+    }
+
     public static Double getStep() {
         return step;
     }

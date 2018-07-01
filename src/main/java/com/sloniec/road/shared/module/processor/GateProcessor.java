@@ -1,22 +1,47 @@
 package com.sloniec.road.shared.module.processor;
 
-import com.sloniec.road.framework.IProcessor;
+import static com.sloniec.road.shared.commons.SegmentCommons.segmentIntersect;
+import static java.util.stream.Collectors.toList;
+
+import com.sloniec.road.shared.Context;
+import com.sloniec.road.shared.commons.FileCommons;
 import com.sloniec.road.shared.commons.GpxFileReader;
-import com.sloniec.road.shared.commons.PointInAreaCommons;
+import com.sloniec.road.shared.commons.Segment;
+import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import com.sloniec.road.shared.result.GateResult;
 import java.util.List;
+import java.util.stream.IntStream;
 
-public class GateProcessor implements IProcessor {
-
-    private GpxFileReader reader;
-    private PointInAreaCommons checker = new PointInAreaCommons();
+public class GateProcessor extends AbstractProcessor<GateResult> {
 
     public GateProcessor(GpxFileReader reader) {
-        this.reader = reader;
+        super(reader);
     }
 
     @Override
-    public List<GateResult> process(List<String> files) {
-        return null;
+    List<GateResult> processFile(String file) {
+        FileCommons.checkIfIsFile(file);
+
+        List<Waypoint> waypoints = reader.getWaypoints(file);
+
+        Segment gate = Context.getGate();
+
+        List<GateResult> results = IntStream.range(1, waypoints.size())
+            .mapToObj(i -> new Segment(waypoints.get(i - 1), waypoints.get(i)))
+            .filter(s -> segmentIntersect(gate, s))
+            .map(GateResult::new)
+            .collect(toList());
+
+        return results;
+    }
+
+    @Override
+    boolean shouldVerifyResult() {
+        return false;
+    }
+
+    @Override
+    boolean verifyResult(GateResult result) {
+        return false;
     }
 }

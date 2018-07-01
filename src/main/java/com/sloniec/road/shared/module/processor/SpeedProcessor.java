@@ -2,8 +2,8 @@ package com.sloniec.road.shared.module.processor;
 
 import static com.sloniec.road.shared.Context.getFilterSwitchRecordsPerRegion;
 import static com.sloniec.road.shared.Context.getFilterValueRecordsPerRegion;
+import static java.util.Arrays.asList;
 
-import com.sloniec.road.framework.IProcessor;
 import com.sloniec.road.shared.Context;
 import com.sloniec.road.shared.commons.FileCommons;
 import com.sloniec.road.shared.commons.GpxFileReader;
@@ -13,35 +13,22 @@ import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import com.sloniec.road.shared.result.SingeSpeedResult;
 import com.sloniec.road.shared.result.SpeedResult;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
-public class SpeedProcessor implements IProcessor {
+public class SpeedProcessor extends AbstractProcessor<SpeedResult> {
 
-    private GpxFileReader reader;
     private PointInAreaCommons checker = new PointInAreaCommons();
-    private int incorrectResults = 0;
 
     public SpeedProcessor(GpxFileReader reader) {
-        this.reader = reader;
+        super(reader);
     }
 
     @Override
     public List<SpeedResult> process(List<String> files) {
-        System.out.println("Liczba danych do procesowania: " + files.size());
-
-        List<SpeedResult> results = files.stream()
-            .map(this::processFile)
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList());
-
-        if (getFilterSwitchRecordsPerRegion()) {
-            System.out.println("Liczba odrzucownych wynikow: " + incorrectResults);
-        }
-        return results;
+        return super.process(files);
     }
 
-    private SpeedResult processFile(String file) {
+    @Override
+    List<SpeedResult> processFile(String file) {
         FileCommons.checkIfIsFile(file);
 
         List<Waypoint> waypoints = reader.getWaypoints(file);
@@ -56,7 +43,12 @@ public class SpeedProcessor implements IProcessor {
         List<Waypoint> afterWaypoints = checker.getAllPointsInAreaAndAround(Context.getAfterArea(), waypoints);
         result.getAfterSpeeds().addAll(getSpeeds(afterWaypoints));
 
-        return verifyResult(result);
+        return asList(result);
+    }
+
+    @Override
+    boolean shouldVerifyResult() {
+        return getFilterSwitchRecordsPerRegion();
     }
 
     private List<SingeSpeedResult> getSpeeds(List<Waypoint> waypoints) {
@@ -64,20 +56,14 @@ public class SpeedProcessor implements IProcessor {
         return commons.calculateSpeeds();
     }
 
-    private SpeedResult verifyResult(SpeedResult result) {
-        if (getFilterSwitchRecordsPerRegion()) {
+    @Override
+    boolean verifyResult(SpeedResult result) {
+        if (shouldVerifyResult()) {
             Double maxResults = getFilterValueRecordsPerRegion();
-            boolean correctResultNumber = result.getBeforeSpeeds().size() < maxResults
+            return result.getBeforeSpeeds().size() < maxResults
                 && result.getDuringSpeeds().size() < maxResults
                 && result.getDuringSpeeds().size() < maxResults;
-
-            if (correctResultNumber) {
-                return result;
-            } else {
-                incorrectResults++;
-                return null;
-            }
         }
-        return result;
+        return false;
     }
 }

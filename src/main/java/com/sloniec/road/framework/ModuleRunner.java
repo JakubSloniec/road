@@ -40,6 +40,7 @@ public class ModuleRunner {
 
         start = begin("procesowanie danych");
         List<? extends IResult> processOutput = processor.process(selectOutput);
+        System.out.println("Liczba wygenerowanych wynikow: " + processOutput.size());
         end("procesowanie danych", start);
 
         start = begin("zapisywanie wynikow");

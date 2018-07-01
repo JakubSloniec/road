@@ -7,7 +7,7 @@ import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class SpeedSelector extends Selector {
+public class SpeedSelector extends AbstractSelector {
 
     private PointInAreaCommons pointInAreaChecker = new PointInAreaCommons();
 

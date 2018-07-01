@@ -12,11 +12,11 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.xml.sax.SAXParseException;
 
-public abstract class Selector implements ISelector {
+public abstract class AbstractSelector implements ISelector {
 
     protected GpxFileReader fileReader;
 
-    public Selector(GpxFileReader fileReader) {
+    public AbstractSelector(GpxFileReader fileReader) {
         this.fileReader = fileReader;
     }
 

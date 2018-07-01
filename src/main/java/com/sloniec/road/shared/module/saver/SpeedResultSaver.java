@@ -1,37 +1,35 @@
 package com.sloniec.road.shared.module.saver;
 
-import com.sloniec.road.framework.IResult;
 import com.sloniec.road.shared.commons.TimeCommons;
 import com.sloniec.road.shared.result.SingeSpeedResult;
 import com.sloniec.road.shared.result.SpeedResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpeedResultSaver extends Saver {
+public class SpeedResultSaver extends AbstractSaver<SpeedResult> {
 
     @Override
-    public List<List<String>> resultsToString(List<? extends IResult> results) {
-        List<List<String>> stringResults = new ArrayList<>();
-        for (IResult result : results) {
-            List<List<String>> stringResult = singleResultToString((SpeedResult) result);
-            stringResults.addAll(stringResult);
-        }
-        return stringResults;
-    }
-
-    private List<List<String>> singleResultToString(SpeedResult result) {
+    protected List<List<String>> resultToString(SpeedResult result) {
         List<List<String>> stringResult = new ArrayList<>();
 
         List<String> preColumns = getPreColumns(result);
 
-        stringResult.addAll(speedResultsToString("PRZED", result.getBeforeSpeeds(), preColumns));
-        stringResult.addAll(speedResultsToString("W_TRAKCIE", result.getDuringSpeeds(), preColumns));
-        stringResult.addAll(speedResultsToString("PO", result.getAfterSpeeds(), preColumns));
+        stringResult.addAll(speedResultsToString(preColumns, "PRZED", result.getBeforeSpeeds()));
+        stringResult.addAll(speedResultsToString(preColumns, "W_TRAKCIE", result.getDuringSpeeds()));
+        stringResult.addAll(speedResultsToString(preColumns, "PO", result.getAfterSpeeds()));
 
         return stringResult;
     }
 
-    private List<List<String>> speedResultsToString(String place, List<SingeSpeedResult> speedResults, List<String> preColumns) {
+    private List<String> getPreColumns(SpeedResult result) {
+        List<String> preColumns = new ArrayList<>();
+        preColumns.addAll(waypointToString(result.getBeginningWaypoint()));
+        preColumns.add(result.getFile());
+        preColumns.add(Double.toString(result.getStep()));
+        return preColumns;
+    }
+
+    private List<List<String>> speedResultsToString(List<String> preColumns, String place, List<SingeSpeedResult> speedResults) {
         List<List<String>> all = new ArrayList<>();
         for (SingeSpeedResult speedResult : speedResults) {
             List<String> single = new ArrayList<>();
@@ -44,25 +42,17 @@ public class SpeedResultSaver extends Saver {
         return all;
     }
 
-    private List<String> getPreColumns(SpeedResult result) {
-        List<String> preColumns = new ArrayList<>();
-        preColumns.addAll(waypointToString(result.getBeginningWaypoint()));
-        preColumns.add(result.getFile());
-        preColumns.add(Double.toString(result.getStep()));
-        return preColumns;
-    }
-
     @Override
-    public List<String> header() {
-        List<String> header = new ArrayList<>();
-        header.add("start czas");
-        header.add("start lat");
-        header.add("start lon");
-        header.add("plik");
-        header.add("krok");
-        header.add("miejsce");
-        header.add("czas");
-        header.add("predkosc");
-        return header;
+    protected List<String> header() {
+        List<String> headers = new ArrayList<>();
+        headers.add("start czas");
+        headers.add("start lat");
+        headers.add("start lon");
+        headers.add("plik");
+        headers.add("krok");
+        headers.add("miejsce");
+        headers.add("czas");
+        headers.add("predkosc");
+        return headers;
     }
 }

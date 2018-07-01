@@ -2,12 +2,10 @@ package com.sloniec.road.framework;
 
 import java.util.List;
 
-public interface ISaver {
-    void save(List<? extends IResult> results);
+public interface ISaver<T extends IResult> {
+    void save(List<T> results);
 
-    List<List<String>> resultsToString(List<? extends IResult> results);
-
-    List<String> header();
+    List<List<String>> resultsToString(List<T> results);
 
     String outputFile();
 }
