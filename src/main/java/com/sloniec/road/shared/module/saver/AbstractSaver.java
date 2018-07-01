@@ -6,7 +6,10 @@ import com.sloniec.road.shared.Context;
 import com.sloniec.road.shared.commons.CSVCommons;
 import com.sloniec.road.shared.commons.TimeCommons;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,12 +38,16 @@ public abstract class AbstractSaver<T extends IResult> implements ISaver<T> {
 
     @Override
     public String outputFile() {
-        String outputFolder = Context.getRootPath() + "\\wyniki";
-        File directory = new File(outputFolder);
-        if (!directory.exists()) {
-            directory.mkdir();
+        Path outputFolder = Paths.get(Context.getRootPath(), "wyniki");
+        try {
+            outputFolder = Files.createDirectories(outputFolder);
+        } catch (IOException e) {
+            System.out.println("Wystapił problem z utworzeniem ścieżki: " + outputFolder);
+            System.exit(0);
         }
-        return outputFolder + "\\wynik_" + Context.getDataSource() + "_" + Context.getProcessingType() + "_" + TimeCommons.getCurrentTimeStamp() + ".csv";
+
+        String fileName = "wynik_" + Context.getDataSource() + "_" + Context.getProcessingType() + "_" + TimeCommons.getCurrentTimeStamp() + ".csv";
+        return Paths.get(outputFolder.toString(), fileName).toString();
     }
 
     protected List<String> waypointToString(Waypoint waypoint) {

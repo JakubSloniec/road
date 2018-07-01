@@ -44,7 +44,7 @@ public abstract class AbstractSelector implements ISelector {
             try {
                 fileReader.readFile(file);
             } catch (SAXParseException e) {
-                System.out.println("BLAD WCZYTYWANIA PLIKU: " + file);
+                System.out.println("Blad wczytywania pliku: " + file);
                 return false;
             }
             return true;

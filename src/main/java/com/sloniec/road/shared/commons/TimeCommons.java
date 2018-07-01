@@ -1,7 +1,7 @@
 package com.sloniec.road.shared.commons;
 
+import com.sloniec.road.shared.Context;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,9 +25,7 @@ public class TimeCommons {
     }
 
     public static String dateToString(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat(Context.getStringDateFormat());
         return sdf.format(date);
     }
-
-
 }

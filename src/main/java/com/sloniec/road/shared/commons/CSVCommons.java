@@ -1,11 +1,10 @@
 package com.sloniec.road.shared.commons;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 
 public class CSVCommons {
     private static final String LINE_SEPARATOR = "\n";
@@ -55,5 +54,4 @@ public class CSVCommons {
         }
         return false;
     }
-
 }

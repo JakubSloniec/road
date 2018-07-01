@@ -24,6 +24,7 @@ public abstract class AbstractProcessor<T extends IResult> implements IProcessor
 
         List<T> results = files.stream()
             .map(this::processFile)
+            .filter(Objects::nonNull)
             .flatMap(List::stream)
             .filter(Objects::nonNull)
             .collect(toList());

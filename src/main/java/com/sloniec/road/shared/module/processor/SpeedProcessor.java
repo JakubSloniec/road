@@ -13,6 +13,7 @@ import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import com.sloniec.road.shared.result.SingeSpeedResult;
 import com.sloniec.road.shared.result.SpeedResult;
 import java.util.List;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 
 public class SpeedProcessor extends AbstractProcessor<SpeedResult> {
 
@@ -30,20 +31,23 @@ public class SpeedProcessor extends AbstractProcessor<SpeedResult> {
     @Override
     List<SpeedResult> processFile(String file) {
         FileCommons.checkIfIsFile(file);
+        try {
+            List<Waypoint> waypoints = reader.getWaypoints(file);
+            SpeedResult result = new SpeedResult(file, Context.getStep(), waypoints.get(0));
 
-        List<Waypoint> waypoints = reader.getWaypoints(file);
-        SpeedResult result = new SpeedResult(file, Context.getStep(), waypoints.get(0));
+            List<Waypoint> beforeWaypoints = checker.getAllPointsInAreaAndAround(Context.getBeforeArea(), waypoints);
+            result.getBeforeSpeeds().addAll(getSpeeds(beforeWaypoints));
 
-        List<Waypoint> beforeWaypoints = checker.getAllPointsInAreaAndAround(Context.getBeforeArea(), waypoints);
-        result.getBeforeSpeeds().addAll(getSpeeds(beforeWaypoints));
+            List<Waypoint> duringWaypoints = checker.getAllPointsInAreaAndAround(Context.getDuringArea(), waypoints);
+            result.getDuringSpeeds().addAll(getSpeeds(duringWaypoints));
 
-        List<Waypoint> duringWaypoints = checker.getAllPointsInAreaAndAround(Context.getDuringArea(), waypoints);
-        result.getDuringSpeeds().addAll(getSpeeds(duringWaypoints));
-
-        List<Waypoint> afterWaypoints = checker.getAllPointsInAreaAndAround(Context.getAfterArea(), waypoints);
-        result.getAfterSpeeds().addAll(getSpeeds(afterWaypoints));
-
-        return asList(result);
+            List<Waypoint> afterWaypoints = checker.getAllPointsInAreaAndAround(Context.getAfterArea(), waypoints);
+            result.getAfterSpeeds().addAll(getSpeeds(afterWaypoints));
+            return asList(result);
+        } catch (NonMonotonicSequenceException e) {
+            System.out.println("Błąd interpolacji w pliku: " + file);
+            return null;
+        }
     }
 
     @Override
@@ -51,7 +55,7 @@ public class SpeedProcessor extends AbstractProcessor<SpeedResult> {
         return getFilterSwitchRecordsPerRegion();
     }
 
-    private List<SingeSpeedResult> getSpeeds(List<Waypoint> waypoints) {
+    private List<SingeSpeedResult> getSpeeds(List<Waypoint> waypoints) throws NonMonotonicSequenceException {
         SpeedCommons commons = new SpeedCommons(waypoints, Context.getStep());
         return commons.calculateSpeeds();
     }

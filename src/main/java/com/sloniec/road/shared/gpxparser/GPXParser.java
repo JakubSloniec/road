@@ -526,5 +526,4 @@ public class GPXParser extends BaseGPX {
         }
         return child.getNodeValue();
     }
-
 }

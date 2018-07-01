@@ -45,6 +45,8 @@ public class Context extends Properties {
     private static Boolean filterSwitchTimeDistance;
     private static Double filterValueTimeDistance;
 
+    private static String stringDateFormat = "yyyy-MM-dd_HH-mm-ss";
+
     public static Context getInstance() {
         if (instance == null) {
             instance = new Context();
@@ -225,5 +227,9 @@ public class Context extends Properties {
 
     public static Double getFilterValueTimeDistance() {
         return filterValueTimeDistance;
+    }
+
+    public static String getStringDateFormat() {
+        return stringDateFormat;
     }
 }

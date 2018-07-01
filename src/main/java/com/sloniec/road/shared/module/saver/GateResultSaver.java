@@ -22,8 +22,8 @@ public class GateResultSaver extends AbstractSaver<GateResult> {
     @Override
     protected List<String> header() {
         List<String> headers = new ArrayList<>();
-        headers.add("czas przed");
-        headers.add("czas po");
+        headers.add("czas_przed");
+        headers.add("czas_po");
         return headers;
     }
 }
