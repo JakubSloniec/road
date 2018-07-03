@@ -1,7 +1,7 @@
-package com.sloniec.road.shared.module.saver;
+package com.sloniec.road.module.saver;
 
-import com.sloniec.road.framework.IResult;
-import com.sloniec.road.framework.ISaver;
+import com.sloniec.road.framework.interf.IResult;
+import com.sloniec.road.framework.interf.ISaver;
 import com.sloniec.road.shared.Context;
 import com.sloniec.road.shared.commons.CSVCommons;
 import com.sloniec.road.shared.commons.TimeCommons;

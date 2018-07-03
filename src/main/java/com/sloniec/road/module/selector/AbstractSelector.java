@@ -1,10 +1,10 @@
-package com.sloniec.road.shared.module.selector;
+package com.sloniec.road.module.selector;
 
 import static com.sloniec.road.shared.Context.getFilterSwitchTimeDistance;
 import static com.sloniec.road.shared.Context.getFilterValueTimeDistance;
 import static com.sloniec.road.shared.commons.TimeCommons.seconds;
 
-import com.sloniec.road.framework.ISelector;
+import com.sloniec.road.framework.interf.ISelector;
 import com.sloniec.road.shared.commons.GpxFileReader;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import java.util.List;

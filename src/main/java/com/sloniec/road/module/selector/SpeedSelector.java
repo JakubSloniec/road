@@ -1,4 +1,4 @@
-package com.sloniec.road.shared.module.selector;
+package com.sloniec.road.module.selector;
 
 import com.sloniec.road.shared.Context;
 import com.sloniec.road.shared.commons.GpxFileReader;

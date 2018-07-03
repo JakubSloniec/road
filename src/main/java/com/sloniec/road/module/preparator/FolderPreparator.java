@@ -1,6 +1,6 @@
-package com.sloniec.road.shared.module;
+package com.sloniec.road.module.preparator;
 
-import com.sloniec.road.framework.IPreparator;
+import com.sloniec.road.framework.interf.IPreparator;
 import com.sloniec.road.shared.commons.FileCommons;
 
 public class FolderPreparator implements IPreparator {

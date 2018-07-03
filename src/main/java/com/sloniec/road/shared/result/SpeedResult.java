@@ -1,6 +1,6 @@
 package com.sloniec.road.shared.result;
 
-import com.sloniec.road.framework.IResult;
+import com.sloniec.road.framework.interf.IResult;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import java.util.ArrayList;
 import java.util.List;

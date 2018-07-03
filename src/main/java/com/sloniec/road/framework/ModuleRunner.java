@@ -5,6 +5,11 @@ import static com.sloniec.road.shared.Context.getDataSource;
 import static com.sloniec.road.shared.Context.getProcessingType;
 
 import com.sloniec.road.framework.config.RunSetup;
+import com.sloniec.road.framework.interf.IPreparator;
+import com.sloniec.road.framework.interf.IProcessor;
+import com.sloniec.road.framework.interf.IResult;
+import com.sloniec.road.framework.interf.ISaver;
+import com.sloniec.road.framework.interf.ISelector;
 import com.sloniec.road.shared.Context;
 import java.time.Duration;
 import java.time.Instant;

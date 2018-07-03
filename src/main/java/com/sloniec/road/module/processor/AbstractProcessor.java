@@ -1,9 +1,9 @@
-package com.sloniec.road.shared.module.processor;
+package com.sloniec.road.module.processor;
 
 import static java.util.stream.Collectors.toList;
 
-import com.sloniec.road.framework.IProcessor;
-import com.sloniec.road.framework.IResult;
+import com.sloniec.road.framework.interf.IProcessor;
+import com.sloniec.road.framework.interf.IResult;
 import com.sloniec.road.shared.commons.GpxFileReader;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.sloniec.road.shared.module.saver;
+package com.sloniec.road.module.saver;
 
 import com.sloniec.road.shared.commons.TimeCommons;
 import com.sloniec.road.shared.result.SingeSpeedResult;

@@ -1,14 +1,17 @@
-package com.sloniec.road.module.wavelo.wavelofile;
-
-import com.sloniec.road.framework.IPreparator;
-import com.sloniec.road.shared.commons.FileCommons;
-import com.sloniec.road.shared.commons.TimeCommons;
-
-import java.io.*;
-import java.nio.file.Paths;
+package com.sloniec.road.module.preparator;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.newBufferedWriter;
+
+import com.sloniec.road.framework.interf.IPreparator;
+import com.sloniec.road.shared.commons.FileCommons;
+import com.sloniec.road.shared.commons.TimeCommons;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Paths;
 
 public class WaveloFilePreparator implements IPreparator {
 
@@ -48,7 +51,6 @@ public class WaveloFilePreparator implements IPreparator {
                     writer.newLine();
                     writer.write(gpxLine);
                     writer.newLine();
-
                 }
                 writer.write(line);
                 writer.newLine();
@@ -56,7 +58,6 @@ public class WaveloFilePreparator implements IPreparator {
             }
             writer.flush();
             writer.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,6 +71,5 @@ public class WaveloFilePreparator implements IPreparator {
             directory.mkdir();
         }
         System.out.println("Stworzono folder dla podzielonych danych Wavelo: " + outputFolder);
-
     }
 }

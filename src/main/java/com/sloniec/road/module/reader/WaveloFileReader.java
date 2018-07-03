@@ -1,9 +1,8 @@
-package com.sloniec.road.module.wavelo;
+package com.sloniec.road.module.reader;
 
 import com.sloniec.road.shared.commons.GpxFileReader;
 import com.sloniec.road.shared.gpxparser.modal.GPX;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
-
 import java.util.List;
 
 public class WaveloFileReader extends GpxFileReader {

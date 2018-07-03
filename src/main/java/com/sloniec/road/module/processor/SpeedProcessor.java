@@ -1,4 +1,4 @@
-package com.sloniec.road.shared.module.processor;
+package com.sloniec.road.module.processor;
 
 import static com.sloniec.road.shared.Context.getFilterSwitchRecordsPerRegion;
 import static com.sloniec.road.shared.Context.getFilterValueRecordsPerRegion;

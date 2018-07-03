@@ -1,4 +1,4 @@
-package com.sloniec.road.shared.module.processor;
+package com.sloniec.road.module.processor;
 
 import static com.sloniec.road.shared.commons.SegmentCommons.segmentIntersect;
 import static java.util.stream.Collectors.toList;
@@ -31,6 +31,8 @@ public class GateProcessor extends AbstractProcessor<GateResult> {
             .filter(s -> segmentIntersect(gate, s))
             .map(GateResult::new)
             .collect(toList());
+
+        results.forEach(r -> r.setFileName(file));
 
         return results;
     }

@@ -1,4 +1,4 @@
-package com.sloniec.road.shared.module.saver;
+package com.sloniec.road.module.saver;
 
 import static java.util.Arrays.asList;
 
@@ -15,7 +15,7 @@ public class GateResultSaver extends AbstractSaver<GateResult> {
         List<String> resultString = new ArrayList<>();
         resultString.add(TimeCommons.dateToString(result.getDateBefore()));
         resultString.add(TimeCommons.dateToString(result.getDateAfter()));
-
+        resultString.add(result.getFileName());
         return asList(resultString);
     }
 
@@ -24,6 +24,7 @@ public class GateResultSaver extends AbstractSaver<GateResult> {
         List<String> headers = new ArrayList<>();
         headers.add("czas_przed");
         headers.add("czas_po");
+        headers.add("plik");
         return headers;
     }
 }

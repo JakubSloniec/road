@@ -1,4 +1,4 @@
-package com.sloniec.road.framework;
+package com.sloniec.road.framework.interf;
 
 import java.util.List;
 
