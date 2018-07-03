@@ -10,8 +10,8 @@ import com.sloniec.road.shared.commons.GpxFileReader;
 import com.sloniec.road.shared.commons.PointInAreaCommons;
 import com.sloniec.road.shared.commons.SpeedCommons;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
-import com.sloniec.road.shared.result.SingeSpeedResult;
-import com.sloniec.road.shared.result.SpeedResult;
+import com.sloniec.road.module.result.SingeSpeedResult;
+import com.sloniec.road.module.result.SpeedResult;
 import java.util.List;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 

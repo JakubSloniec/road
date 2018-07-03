@@ -3,7 +3,7 @@ package com.sloniec.road.module.saver;
 import static java.util.Arrays.asList;
 
 import com.sloniec.road.shared.commons.TimeCommons;
-import com.sloniec.road.shared.result.GateResult;
+import com.sloniec.road.module.result.GateResult;
 import java.util.ArrayList;
 import java.util.List;
 

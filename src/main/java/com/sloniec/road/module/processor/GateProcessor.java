@@ -8,7 +8,7 @@ import com.sloniec.road.shared.commons.FileCommons;
 import com.sloniec.road.shared.commons.GpxFileReader;
 import com.sloniec.road.shared.commons.Segment;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
-import com.sloniec.road.shared.result.GateResult;
+import com.sloniec.road.module.result.GateResult;
 import java.util.List;
 import java.util.stream.IntStream;
 

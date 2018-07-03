@@ -1,4 +1,4 @@
-package com.sloniec.road.shared.result;
+package com.sloniec.road.module.result;
 
 import com.sloniec.road.framework.interf.IResult;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;

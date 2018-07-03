@@ -1,4 +1,4 @@
-package com.sloniec.road.shared.result;
+package com.sloniec.road.module.result;
 
 import java.util.Date;
 import lombok.AllArgsConstructor;

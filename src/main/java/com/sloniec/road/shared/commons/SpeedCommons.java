@@ -1,7 +1,7 @@
 package com.sloniec.road.shared.commons;
 
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
-import com.sloniec.road.shared.result.SingeSpeedResult;
+import com.sloniec.road.module.result.SingeSpeedResult;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
