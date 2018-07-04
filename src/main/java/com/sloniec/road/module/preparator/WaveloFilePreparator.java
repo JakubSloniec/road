@@ -45,8 +45,8 @@ public class WaveloFilePreparator implements IPreparator {
                         writer.flush();
                         writer.close();
                     }
-                    currentFile = outputFolder + "/data_" + count + ".gpx";
-                    writer = newBufferedWriter(Paths.get(currentFile), UTF_8);
+                    currentFile = "data_" + count + ".gpx";
+                    writer = newBufferedWriter(Paths.get(outputFolder, currentFile), UTF_8);
                     writer.write(xmlLine);
                     writer.newLine();
                     writer.write(gpxLine);
@@ -65,7 +65,7 @@ public class WaveloFilePreparator implements IPreparator {
 
     private void createOutputDir(String inputFile) {
         String parent = Paths.get(inputFile).getParent().toAbsolutePath().toString();
-        outputFolder = parent + "\\divided_data_" + TimeCommons.getCurrentTimeStamp();
+        outputFolder = Paths.get(parent, "divided_data_" + TimeCommons.getCurrentTimeStamp()).toString();
         File directory = new File(outputFolder);
         if (!directory.exists()) {
             directory.mkdir();

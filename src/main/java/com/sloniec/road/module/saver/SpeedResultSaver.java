@@ -1,8 +1,8 @@
 package com.sloniec.road.module.saver;
 
-import com.sloniec.road.shared.commons.TimeCommons;
 import com.sloniec.road.module.result.SingeSpeedResult;
 import com.sloniec.road.module.result.SpeedResult;
+import com.sloniec.road.shared.commons.TimeCommons;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -3,12 +3,12 @@ package com.sloniec.road.module.processor;
 import static com.sloniec.road.shared.commons.SegmentCommons.segmentIntersect;
 import static java.util.stream.Collectors.toList;
 
+import com.sloniec.road.module.result.GateResult;
 import com.sloniec.road.shared.Context;
 import com.sloniec.road.shared.commons.FileCommons;
 import com.sloniec.road.shared.commons.GpxFileReader;
 import com.sloniec.road.shared.commons.Segment;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
-import com.sloniec.road.module.result.GateResult;
 import java.util.List;
 import java.util.stream.IntStream;
 

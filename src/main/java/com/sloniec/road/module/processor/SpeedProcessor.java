@@ -4,14 +4,14 @@ import static com.sloniec.road.shared.Context.getFilterSwitchRecordsPerRegion;
 import static com.sloniec.road.shared.Context.getFilterValueRecordsPerRegion;
 import static java.util.Arrays.asList;
 
+import com.sloniec.road.module.result.SingeSpeedResult;
+import com.sloniec.road.module.result.SpeedResult;
 import com.sloniec.road.shared.Context;
 import com.sloniec.road.shared.commons.FileCommons;
 import com.sloniec.road.shared.commons.GpxFileReader;
 import com.sloniec.road.shared.commons.PointInAreaCommons;
 import com.sloniec.road.shared.commons.SpeedCommons;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
-import com.sloniec.road.module.result.SingeSpeedResult;
-import com.sloniec.road.module.result.SpeedResult;
 import java.util.List;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 
