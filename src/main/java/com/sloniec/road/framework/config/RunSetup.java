@@ -24,8 +24,10 @@ import com.sloniec.road.module.selector.SpeedSelector;
 import com.sloniec.road.shared.commons.GpxFileReader;
 import java.util.List;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
+@Slf4j
 public class RunSetup {
 
     private static final List<DataSource> STRAVA_DS = asList(STRAVA_FOLDER);

@@ -13,15 +13,22 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public abstract class AbstractSaver<T extends IResult> implements ISaver<T> {
 
     @Override
     public void save(List<T> results) {
-        List<List<String>> stringResults = resultsToString(results);
-        String outputFile = outputFile();
-        CSVCommons.toCSV(outputFile, header(), stringResults);
-        System.out.println("Wyniki zostaly zapisane do pliku: " + outputFile);
+        if (results.isEmpty()) {
+            log.info("Brak wyników do zapisania");
+            log.error("TEST [{}]", "123");
+        } else {
+            List<List<String>> stringResults = resultsToString(results);
+            String outputFile = outputFile();
+            CSVCommons.toCSV(outputFile, header(), stringResults);
+            log.info("Wyniki zostaly zapisane do pliku: [{}]", outputFile);
+        }
     }
 
     @Override
@@ -42,7 +49,7 @@ public abstract class AbstractSaver<T extends IResult> implements ISaver<T> {
         try {
             outputFolder = Files.createDirectories(outputFolder);
         } catch (IOException e) {
-            System.out.println("Wystapił problem z utworzeniem ścieżki: " + outputFolder);
+            log.error("Wystapił problem z utworzeniem ścieżki: [{}]", outputFolder);
             System.exit(0);
         }
 

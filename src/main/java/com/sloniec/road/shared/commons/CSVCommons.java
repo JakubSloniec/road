@@ -3,9 +3,11 @@ package com.sloniec.road.shared.commons;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
+@Slf4j
 public class CSVCommons {
     private static final String LINE_SEPARATOR = "\n";
 
@@ -35,14 +37,15 @@ public class CSVCommons {
                 fileWriter.close();
                 csvPrinter.close();
             } catch (IOException e) {
-                System.out.println("Wysapil blad przy zapisywaniu wynikow.");
+                log.error("Wysapil blad przy zapisywaniu wynikow.");
                 System.exit(0);
             }
         }
         return true;
     }
 
-    private static boolean areIncorrectParameters(String outputFile, List<String> fileHeader, List<List<String>> results) {
+    private static boolean areIncorrectParameters(String outputFile, List<String> fileHeader,
+        List<List<String>> results) {
         if (null == fileHeader || fileHeader.size() == 0) {
             return true;
         }

@@ -8,7 +8,9 @@ import com.sloniec.road.shared.commons.GpxFileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public abstract class AbstractProcessor<T extends IResult> implements IProcessor {
 
     protected GpxFileReader reader;
@@ -20,7 +22,7 @@ public abstract class AbstractProcessor<T extends IResult> implements IProcessor
 
     @Override
     public List<T> process(List<String> files) {
-        System.out.println("Liczba danych do procesowania: " + files.size());
+        log.info("Liczba danych do procesowania: [{}]", files.size());
 
         List<T> results = files.stream()
             .map(this::processFile)
@@ -31,7 +33,7 @@ public abstract class AbstractProcessor<T extends IResult> implements IProcessor
 
         if (shouldVerifyResult()) {
             results = verifyResults(results);
-            System.out.println("Liczba odrzucownych wynikow: " + incorrectResults);
+            log.info("Liczba odrzucownych wynikow: [{}]", incorrectResults);
         }
         return results;
     }

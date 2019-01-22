@@ -13,8 +13,10 @@ import com.sloniec.road.shared.commons.PointInAreaCommons;
 import com.sloniec.road.shared.commons.SpeedCommons;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 
+@Slf4j
 public class SpeedProcessor extends AbstractProcessor<SpeedResult> {
 
     private PointInAreaCommons checker = new PointInAreaCommons();
@@ -45,7 +47,7 @@ public class SpeedProcessor extends AbstractProcessor<SpeedResult> {
             result.getAfterSpeeds().addAll(getSpeeds(afterWaypoints));
             return asList(result);
         } catch (NonMonotonicSequenceException e) {
-            System.out.println("Błąd interpolacji w pliku: " + file);
+            log.info("Błąd interpolacji w pliku: [{}]", file);
             return null;
         }
     }

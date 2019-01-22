@@ -10,8 +10,10 @@ import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.xml.sax.SAXParseException;
 
+@Slf4j
 public abstract class AbstractSelector implements ISelector {
 
     protected GpxFileReader fileReader;
@@ -27,7 +29,7 @@ public abstract class AbstractSelector implements ISelector {
 
     private List<String> selectFiles(String folder) {
         List<String> files = fileReader.listFolderFiles(folder);
-        System.out.println("Liczba orginalnych danych: " + files.size());
+        log.info("Liczba orginalnych danych: [{}]", files.size());
 
         List<String> selectedFiles = files.stream()
             .filter(getFilters())
@@ -44,7 +46,7 @@ public abstract class AbstractSelector implements ISelector {
             try {
                 fileReader.readFile(file);
             } catch (SAXParseException e) {
-                System.out.println("Blad wczytywania pliku: " + file);
+                log.info("Blad wczytywania pliku: [{}]", file);
                 return false;
             }
             return true;
@@ -58,7 +60,7 @@ public abstract class AbstractSelector implements ISelector {
                 Double maxTimeDistance = getFilterValueTimeDistance();
 
                 if (seconds(waypoints.get(0), waypoints.get(waypoints.size() - 1)) > maxTimeDistance) {
-                    System.out.println("Trasa powyzej " + maxTimeDistance + "s w pliku " + file);
+                    log.info("Trasa powyzej [{}]s w pliku [{}]", maxTimeDistance, file);
                     return false;
                 }
             }

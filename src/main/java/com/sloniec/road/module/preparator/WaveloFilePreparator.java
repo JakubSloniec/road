@@ -12,7 +12,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class WaveloFilePreparator implements IPreparator {
 
     private static String outputFolder;
@@ -26,7 +28,7 @@ public class WaveloFilePreparator implements IPreparator {
     }
 
     private void divideFile(String file) {
-        System.out.println("Rozpoczeto dzielenie danych wavelo z pliku: " + file);
+        log.info("Rozpoczeto dzielenie danych wavelo z pliku: [{}]", file);
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 
@@ -70,6 +72,6 @@ public class WaveloFilePreparator implements IPreparator {
         if (!directory.exists()) {
             directory.mkdir();
         }
-        System.out.println("Stworzono folder dla podzielonych danych Wavelo: " + outputFolder);
+        log.info("Stworzono folder dla podzielonych danych Wavelo: [{}]", outputFolder);
     }
 }

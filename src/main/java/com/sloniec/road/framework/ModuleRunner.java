@@ -14,7 +14,9 @@ import com.sloniec.road.shared.Context;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ModuleRunner {
 
     private IPreparator preparator;
@@ -24,7 +26,7 @@ public class ModuleRunner {
 
     public ModuleRunner() {
         RunSetup runSetup = Context.getRunSetup();
-        System.out.println("Wybrane opcje: " + getDataSource() + ", " + getProcessingType());
+        log.info("Wybrane opcje: [{}], [{}]", getDataSource(), getProcessingType());
 
         preparator = runSetup.getPreparator();
         selector = runSetup.getSelector();
@@ -45,7 +47,7 @@ public class ModuleRunner {
 
         start = begin("procesowanie danych");
         List<? extends IResult> processOutput = processor.process(selectOutput);
-        System.out.println("Liczba wygenerowanych wynikow: " + processOutput.size());
+        log.info("Liczba wygenerowanych wynikow: [{}]", processOutput.size());
         end("procesowanie danych", start);
 
         start = begin("zapisywanie wynikow");
@@ -54,13 +56,13 @@ public class ModuleRunner {
     }
 
     private Instant begin(String part) {
-        System.out.println();
-        System.out.println("Rozpoczeto " + part + "...");
+        log.info("");
+        log.info("Rozpoczeto [{}]...", part);
         return Instant.now();
     }
 
     private void end(String part, Instant start) {
         Instant end = Instant.now();
-        System.out.println("Zakonczono " + part + " w czasie: " + Duration.between(start, end));
+        log.info("Zakonczono [{}] w czasie: [{}]", part, Duration.between(start, end));
     }
 }

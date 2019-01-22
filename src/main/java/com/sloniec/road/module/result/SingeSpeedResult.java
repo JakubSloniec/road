@@ -7,7 +7,7 @@ import lombok.ToString;
 
 @AllArgsConstructor
 @Getter
-@ToString()
+@ToString
 public class SingeSpeedResult {
 
     private Double value;
