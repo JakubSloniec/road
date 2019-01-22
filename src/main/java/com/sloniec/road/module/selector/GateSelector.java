@@ -10,7 +10,6 @@ public class GateSelector extends AbstractSelector {
 
     @Override
     protected Predicate<String> getFilters() {
-        return isFileSuccessfullyParsed()
-            .and(isTotalTimeDistanceNotTooGreat());
+        return file -> true;
     }
 }

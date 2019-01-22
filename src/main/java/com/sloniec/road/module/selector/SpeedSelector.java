@@ -17,9 +17,7 @@ public class SpeedSelector extends AbstractSelector {
 
     @Override
     protected Predicate<String> getFilters() {
-        return isFileSuccessfullyParsed()
-            .and(isTotalTimeDistanceNotTooGreat())
-            .and(hasFilePointInPolygons());
+        return hasFilePointInPolygons();
     }
 
     private Predicate<String> hasFilePointInPolygons() {
@@ -29,11 +27,13 @@ public class SpeedSelector extends AbstractSelector {
             if (przed == null) {
                 return false;
             }
-            Waypoint wTrakcie = pointInAreaChecker.getFirstPointInArea(Context.getDuringArea(), waypoints.subList(waypoints.indexOf(przed), waypoints.size()));
+            Waypoint wTrakcie = pointInAreaChecker.getFirstPointInArea(Context.getDuringArea(),
+                waypoints.subList(waypoints.indexOf(przed), waypoints.size()));
             if (wTrakcie == null) {
                 return false;
             }
-            Waypoint po = pointInAreaChecker.getFirstPointInArea(Context.getAfterArea(), waypoints.subList(waypoints.indexOf(wTrakcie), waypoints.size()));
+            Waypoint po = pointInAreaChecker.getFirstPointInArea(Context.getAfterArea(),
+                waypoints.subList(waypoints.indexOf(wTrakcie), waypoints.size()));
             if (po == null) {
                 return false;
             }

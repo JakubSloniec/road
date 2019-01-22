@@ -53,7 +53,8 @@ public abstract class AbstractSaver<T extends IResult> implements ISaver<T> {
             System.exit(0);
         }
 
-        String fileName = "wynik_" + Context.getDataSource() + "_" + Context.getProcessingType() + "_" + TimeCommons.getCurrentTimeStamp() + ".csv";
+        String fileName = "wynik_" + Context.getDataSource() + "_" + Context.getProcessingType() + "_" + TimeCommons
+            .getCurrentTimeStamp() + ".csv";
         return Paths.get(outputFolder.toString(), fileName).toString();
     }
 
