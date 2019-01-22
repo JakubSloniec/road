@@ -2,6 +2,7 @@ package com.sloniec.road.shared;
 
 import static com.sloniec.road.framework.config.DataSource.STRAVA_FOLDER;
 import static com.sloniec.road.framework.config.ProcessingType.PREDKOSC;
+import static com.sloniec.road.framework.config.ProcessingType.PROSTOKAT;
 import static com.sloniec.road.framework.config.ProcessingType.PRZEPUST;
 import static com.sloniec.road.shared.commons.GPXCommons.stringToPoint;
 import static java.nio.file.Files.newBufferedReader;
@@ -9,6 +10,7 @@ import static java.nio.file.Files.newBufferedReader;
 import com.sloniec.road.framework.config.DataSource;
 import com.sloniec.road.framework.config.ProcessingType;
 import com.sloniec.road.framework.config.RunSetup;
+import com.sloniec.road.shared.commons.Area;
 import com.sloniec.road.shared.commons.Segment;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -36,6 +38,8 @@ public class Context extends Properties {
     private static Area afterArea;
 
     private static Segment gate;
+
+    private static Area rectangle;
 
     private static Double step;
 
@@ -72,6 +76,8 @@ public class Context extends Properties {
             setSpeedConfig();
         } else if (PRZEPUST.equals(processingType)) {
             setGateConfig();
+        } else if (PROSTOKAT.equals(processingType)) {
+            setRectangleConfig();
         }
 
         setTimeStep();
@@ -121,13 +127,35 @@ public class Context extends Properties {
     }
 
     private void setSpeedConfig() {
-        beforeArea = new Area(getProperty("przed_a"), getProperty("przed_b"), getProperty("przed_c"), getProperty("przed_d"));
-        duringArea = new Area(getProperty("w_trakcie_a"), getProperty("w_trakcie_b"), getProperty("w_trakcie_c"), getProperty("w_trakcie_d"));
-        afterArea = new Area(getProperty("po_a"), getProperty("po_b"), getProperty("po_c"), getProperty("po_d"));
+        beforeArea = new Area(
+            getProperty("przed_a"),
+            getProperty("przed_b"),
+            getProperty("przed_c"),
+            getProperty("przed_d"));
+        duringArea = new Area(
+            getProperty("w_trakcie_a"),
+            getProperty("w_trakcie_b"),
+            getProperty("w_trakcie_c"),
+            getProperty("w_trakcie_d"));
+        afterArea = new Area(
+            getProperty("po_a"),
+            getProperty("po_b"),
+            getProperty("po_c"),
+            getProperty("po_d"));
     }
 
     private void setGateConfig() {
-        gate = new Segment(stringToPoint(getProperty("przepust_a")), stringToPoint(getProperty("przepust_b")));
+        gate = new Segment(
+            stringToPoint(getProperty("przepust_a")),
+            stringToPoint(getProperty("przepust_b")));
+    }
+
+    private void setRectangleConfig() {
+        rectangle = new Area(
+            getProperty("prostokat_a"),
+            getProperty("prostokat_b"),
+            getProperty("prostokat_c"),
+            getProperty("prostokat_d"));
     }
 
     private void setTimeStep() {
@@ -205,6 +233,10 @@ public class Context extends Properties {
 
     public static Segment getGate() {
         return gate;
+    }
+
+    public static Area getRectangle() {
+        return rectangle;
     }
 
     public static Double getStep() {
