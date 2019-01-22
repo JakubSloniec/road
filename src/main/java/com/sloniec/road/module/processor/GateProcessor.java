@@ -1,6 +1,7 @@
 package com.sloniec.road.module.processor;
 
 import static com.sloniec.road.shared.commons.SegmentCommons.segmentIntersect;
+import static com.sloniec.road.shared.commons.SegmentCommons.waypointsToSegments;
 import static java.util.stream.Collectors.toList;
 
 import com.sloniec.road.module.result.GateResult;
@@ -10,7 +11,6 @@ import com.sloniec.road.shared.commons.GpxFileReader;
 import com.sloniec.road.shared.commons.Segment;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class GateProcessor extends AbstractProcessor<GateResult> {
 
@@ -26,8 +26,7 @@ public class GateProcessor extends AbstractProcessor<GateResult> {
 
         Segment gate = Context.getGate();
 
-        List<GateResult> results = IntStream.range(1, waypoints.size())
-            .mapToObj(i -> new Segment(waypoints.get(i - 1), waypoints.get(i)))
+        List<GateResult> results = waypointsToSegments(waypoints)
             .filter(s -> segmentIntersect(gate, s))
             .map(GateResult::new)
             .collect(toList());
