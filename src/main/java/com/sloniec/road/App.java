@@ -23,7 +23,6 @@ public class App {
 
         LocalDateTime end = LocalDateTime.now();
         log.info("");
-
         log.info("Zakonczono prace programu w czasie: [{}]", formatTime(start, end));
         log.info("Nacisniecie przycisku 'ENTER' zamknie to okno.");
         System.in.read();
