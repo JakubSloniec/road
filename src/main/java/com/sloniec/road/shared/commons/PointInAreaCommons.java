@@ -1,9 +1,7 @@
 package com.sloniec.road.shared.commons;
 
-import static com.sloniec.road.shared.commons.GPXCommons.x;
-import static com.sloniec.road.shared.commons.GPXCommons.y;
+import static com.sloniec.road.shared.commons.AreaCommons.isPointInArea;
 
-import com.sloniec.road.shared.Area;
 import com.sloniec.road.shared.WaypointComparator;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import java.util.ArrayList;
@@ -15,7 +13,8 @@ public class PointInAreaCommons {
     public Waypoint getFirstPointInArea(Area area, List<Waypoint> waypoints) {
         return waypoints.stream()
             .filter(waypoint -> isPointInArea(area, waypoint))
-            .findFirst().orElse(null);
+            .findFirst()
+            .orElse(null);
     }
 
     public List<Waypoint> getAllPointsInAreaAndAround(Area area, List<Waypoint> waypoints) {
@@ -34,9 +33,6 @@ public class PointInAreaCommons {
         int lastIndex;
         if (selectedWaypoints.size() == 1) {
             firstIndex = allWaypoints.indexOf(selectedWaypoints.get(0));
-//            if (firstIndex == 0) {
-//                return allWaypoints.subList(0, 3);
-//            }
             lastIndex = firstIndex;
         } else {
             firstIndex = allWaypoints.indexOf(selectedWaypoints.get(0));
@@ -58,17 +54,5 @@ public class PointInAreaCommons {
             result.add(after);
         }
         return result;
-    }
-
-    private boolean isPointInArea(Area q, Waypoint p) {
-        return comparePointToEdge(q.a, q.b, p)
-            && comparePointToEdge(q.b, q.c, p)
-            && comparePointToEdge(q.c, q.d, p)
-            && comparePointToEdge(q.d, q.a, p);
-    }
-
-    private boolean comparePointToEdge(Waypoint a, Waypoint b, Waypoint p) {
-        double castPointOnEdge = ((x(a) - x(b)) * (y(p) - y(b))) - ((y(a) - y(b)) * (x(p) - x(b)));
-        return castPointOnEdge <= 0; // anticlockwise
     }
 }

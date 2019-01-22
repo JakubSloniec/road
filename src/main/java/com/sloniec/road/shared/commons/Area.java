@@ -1,4 +1,4 @@
-package com.sloniec.road.shared;
+package com.sloniec.road.shared.commons;
 
 import static com.sloniec.road.shared.commons.GPXCommons.stringToPoint;
 
