@@ -4,6 +4,7 @@ import static com.sloniec.road.framework.config.DataSource.STRAVA_FOLDER;
 import static com.sloniec.road.framework.config.DataSource.WAVELO_FOLDER;
 import static com.sloniec.road.framework.config.DataSource.WAVELO_PLIK;
 import static com.sloniec.road.framework.config.ProcessingType.PREDKOSC;
+import static com.sloniec.road.framework.config.ProcessingType.PROSTOKAT;
 import static com.sloniec.road.framework.config.ProcessingType.PRZEPUST;
 import static java.util.Arrays.asList;
 
@@ -14,12 +15,15 @@ import com.sloniec.road.framework.interf.ISelector;
 import com.sloniec.road.module.preparator.FolderPreparator;
 import com.sloniec.road.module.preparator.WaveloFilePreparator;
 import com.sloniec.road.module.processor.GateProcessor;
+import com.sloniec.road.module.processor.RectangleProcessor;
 import com.sloniec.road.module.processor.SpeedProcessor;
 import com.sloniec.road.module.reader.StravaFileReader;
 import com.sloniec.road.module.reader.WaveloFileReader;
 import com.sloniec.road.module.saver.GateResultSaver;
+import com.sloniec.road.module.saver.RectangleSpeedResultSaver;
 import com.sloniec.road.module.saver.SpeedResultSaver;
 import com.sloniec.road.module.selector.GateSelector;
+import com.sloniec.road.module.selector.RectangleSelector;
 import com.sloniec.road.module.selector.SpeedSelector;
 import com.sloniec.road.shared.commons.GpxFileReader;
 import java.util.List;
@@ -67,6 +71,8 @@ public class RunSetup {
             return new SpeedSelector(resolveFileReader(dataSource));
         } else if (PRZEPUST.equals(processingType)) {
             return new GateSelector(resolveFileReader(dataSource));
+        } else if (PROSTOKAT.equals(processingType)) {
+            return new RectangleSelector(resolveFileReader(dataSource));
         }
         return null;
     }
@@ -76,6 +82,8 @@ public class RunSetup {
             return new SpeedProcessor(resolveFileReader(dataSource));
         } else if (PRZEPUST.equals(processingType)) {
             return new GateProcessor(resolveFileReader(dataSource));
+        } else if (PROSTOKAT.equals(processingType)) {
+            return new RectangleProcessor(resolveFileReader(dataSource));
         }
         return null;
     }
@@ -85,6 +93,8 @@ public class RunSetup {
             return new SpeedResultSaver();
         } else if (PRZEPUST.equals(processingType)) {
             return new GateResultSaver();
+        } else if (PROSTOKAT.equals(processingType)) {
+            return new RectangleSpeedResultSaver();
         }
         return null;
     }
