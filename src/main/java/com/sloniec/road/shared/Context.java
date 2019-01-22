@@ -64,7 +64,7 @@ public class Context extends Properties {
         setProcessingType();
         setRunSetup();
 
-        dataLocation = getProperty("dane");
+        dataLocation = Paths.get(getProperty("dane")).toString();
 
         if (PREDKOSC.equals(processingType)) {
             setSpeedConfig();
