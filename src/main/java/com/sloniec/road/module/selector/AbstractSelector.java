@@ -32,16 +32,22 @@ public abstract class AbstractSelector implements ISelector {
         log.info("Liczba orginalnych danych: [{}]", files.size());
 
         List<String> selectedFiles = files.stream()
-            .filter(getFilters())
+            .filter(getBaseFilters()
+                .and(getFilters()))
             .collect(Collectors.toList());
 
-        System.out.println("Liczba wybranych danych: " + selectedFiles.size());
+        log.info("Liczba wybranych danych: [{}]", selectedFiles.size());
         return selectedFiles;
     }
 
     protected abstract Predicate<String> getFilters();
 
-    protected Predicate<String> isFileSuccessfullyParsed() {
+    private Predicate<String> getBaseFilters() {
+        return isFileSuccessfullyParsed()
+            .and(isTotalTimeDistanceNotTooGreat());
+    }
+
+    private Predicate<String> isFileSuccessfullyParsed() {
         return file -> {
             try {
                 fileReader.readFile(file);
@@ -53,7 +59,7 @@ public abstract class AbstractSelector implements ISelector {
         };
     }
 
-    protected Predicate<String> isTotalTimeDistanceNotTooGreat() {
+    private Predicate<String> isTotalTimeDistanceNotTooGreat() {
         return file -> {
             if (getFilterSwitchTimeDistance()) {
                 List<Waypoint> waypoints = fileReader.getWaypoints(file);
