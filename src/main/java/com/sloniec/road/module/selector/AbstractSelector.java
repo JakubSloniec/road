@@ -29,7 +29,7 @@ public abstract class AbstractSelector implements ISelector {
 
     private List<String> selectFiles(String folder) {
         List<String> files = fileReader.listFolderFiles(folder);
-        log.info("Liczba orginalnych danych: [{}]", files.size());
+        log.info("Liczba wszystkich danych: [{}]", files.size());
 
         List<String> selectedFiles = files.stream()
             .filter(getBaseFilters()

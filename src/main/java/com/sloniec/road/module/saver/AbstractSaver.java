@@ -22,7 +22,6 @@ public abstract class AbstractSaver<T extends IResult> implements ISaver<T> {
     public void save(List<T> results) {
         if (results.isEmpty()) {
             log.info("Brak wyników do zapisania");
-            log.error("TEST [{}]", "123");
         } else {
             List<List<String>> stringResults = resultsToString(results);
             String outputFile = outputFile();

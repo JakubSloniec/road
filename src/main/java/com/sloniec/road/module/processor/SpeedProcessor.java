@@ -19,7 +19,7 @@ import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 @Slf4j
 public class SpeedProcessor extends AbstractProcessor<SpeedResult> {
 
-    private PointInAreaCommons checker = new PointInAreaCommons();
+    private PointInAreaCommons pointInAreaCommons = new PointInAreaCommons();
 
     public SpeedProcessor(GpxFileReader reader) {
         super(reader);
@@ -37,17 +37,20 @@ public class SpeedProcessor extends AbstractProcessor<SpeedResult> {
             List<Waypoint> waypoints = reader.getWaypoints(file);
             SpeedResult result = new SpeedResult(file, Context.getStep(), waypoints.get(0));
 
-            List<Waypoint> beforeWaypoints = checker.getAllPointsInAreaAndAround(Context.getBeforeArea(), waypoints);
+            List<Waypoint> beforeWaypoints = pointInAreaCommons
+                .getAllPointsInAreaAndAround(Context.getBeforeArea(), waypoints);
             result.getBeforeSpeeds().addAll(getSpeeds(beforeWaypoints));
 
-            List<Waypoint> duringWaypoints = checker.getAllPointsInAreaAndAround(Context.getDuringArea(), waypoints);
+            List<Waypoint> duringWaypoints = pointInAreaCommons
+                .getAllPointsInAreaAndAround(Context.getDuringArea(), waypoints);
             result.getDuringSpeeds().addAll(getSpeeds(duringWaypoints));
 
-            List<Waypoint> afterWaypoints = checker.getAllPointsInAreaAndAround(Context.getAfterArea(), waypoints);
+            List<Waypoint> afterWaypoints = pointInAreaCommons
+                .getAllPointsInAreaAndAround(Context.getAfterArea(), waypoints);
             result.getAfterSpeeds().addAll(getSpeeds(afterWaypoints));
             return asList(result);
         } catch (NonMonotonicSequenceException e) {
-            log.info("Błąd interpolacji w pliku: [{}]", file);
+            log.error("Błąd interpolacji w pliku: [{}]", file);
             return null;
         }
     }
