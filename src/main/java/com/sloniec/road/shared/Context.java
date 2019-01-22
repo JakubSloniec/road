@@ -15,8 +15,10 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
+@Slf4j
 public class Context extends Properties {
 
     private static Context instance = null;
@@ -80,7 +82,7 @@ public class Context extends Properties {
 
     private void loadPropertyFile(String[] args) {
         if (args.length != 1) {
-            System.out.println("Niepoprawne wywolanie programu!");
+            log.error("Niepoprawne wywolanie programu!");
             System.exit(0);
         }
 
@@ -95,7 +97,7 @@ public class Context extends Properties {
         try {
             dataSource = DataSource.valueOf(getProperty("zrodlo_danych"));
         } catch (IllegalArgumentException e) {
-            System.out.println("BLAD: niepoprawna wartosc w parametrze 'zrodlo_danych' lub 'procesowanie'");
+            log.error("BLAD: niepoprawna wartosc w parametrze 'zrodlo_danych' lub 'procesowanie'");
             System.exit(0);
         }
     }
@@ -104,7 +106,7 @@ public class Context extends Properties {
         try {
             processingType = ProcessingType.valueOf(getProperty("procesowanie"));
         } catch (IllegalArgumentException e) {
-            System.out.println("BLAD: niepoprawna wartosc w parametrze 'zrodlo_danych' lub 'procesowanie'");
+            log.error("BLAD: niepoprawna wartosc w parametrze 'zrodlo_danych' lub 'procesowanie'");
             System.exit(0);
         }
     }
@@ -113,7 +115,7 @@ public class Context extends Properties {
         try {
             runSetup = new RunSetup(dataSource, processingType);
         } catch (IllegalArgumentException e) {
-            System.out.println("BLAD: niepoprawna wartosc w parametrze 'zrodlo_danych' lub 'procesowanie'");
+            log.error("BLAD: niepoprawna wartosc w parametrze 'zrodlo_danych' lub 'procesowanie'");
             System.exit(0);
         }
     }
@@ -132,7 +134,7 @@ public class Context extends Properties {
         try {
             step = Double.valueOf(getProperty("krok"));
         } catch (NullPointerException | NumberFormatException ex) {
-            System.out.println("BLAD: niepoprawna wartosc w parametrze 'krok'");
+            log.error("BLAD: niepoprawna wartosc w parametrze 'krok'");
             System.exit(0);
         }
     }
@@ -153,7 +155,7 @@ public class Context extends Properties {
         try {
             filterValueRecordsPerRegion = Double.valueOf(getProperty("filter_value_records_per_region"));
         } catch (NullPointerException | NumberFormatException ex) {
-            System.out.println("BLAD: niepoprawna wartosc w parametrze 'filter_value_records_per_region'");
+            log.error("BLAD: niepoprawna wartosc w parametrze 'filter_value_records_per_region'");
             System.exit(0);
         }
     }
@@ -164,7 +166,7 @@ public class Context extends Properties {
         try {
             filterValueTimeDistance = Double.valueOf(getProperty("filter_value_time_distance"));
         } catch (NullPointerException | NumberFormatException ex) {
-            System.out.println("BLAD: niepoprawna wartosc w parametrze 'filter_value_time_distance'");
+            log.error("BLAD: niepoprawna wartosc w parametrze 'filter_value_time_distance'");
             System.exit(0);
         }
     }
