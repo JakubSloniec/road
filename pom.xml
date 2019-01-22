@@ -6,7 +6,7 @@
 
   <groupId>pl.sloniec</groupId>
   <artifactId>road</artifactId>
-  <version>1.2.2</version>
+  <version>1.2.3</version>
 
   <build>
     <plugins>
@@ -37,11 +37,15 @@
   </build>
 
   <dependencies>
+
+    <!-- Geolocation -->
     <dependency>
       <groupId>org.gavaghan</groupId>
       <artifactId>geodesy</artifactId>
       <version>LATEST</version>
     </dependency>
+
+    <!-- Apache Commons -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-math3</artifactId>
@@ -57,11 +61,31 @@
       <artifactId>commons-lang3</artifactId>
       <version>LATEST</version>
     </dependency>
+
+    <!-- Lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>LATEST</version>
     </dependency>
+
+    <!-- Slf4J-->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>LATEST</version>
+    </dependency>
+    <!--<dependency>-->
+    <!--<groupId>org.slf4j</groupId>-->
+    <!--<artifactId>slf4j-simple</artifactId>-->
+    <!--<version>LATEST</version>-->
+    <!--</dependency>-->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>LATEST</version>
+    </dependency>
+
   </dependencies>
 
 </project>
