@@ -1,7 +1,9 @@
 package com.sloniec.road.shared.commons;
 
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class GPXCommons {
     public static double x(Waypoint p) {
         return p.getLongitude();
@@ -15,7 +17,8 @@ public class GPXCommons {
         String[] split = s.split(",");
 
         if (split.length != 2) {
-            throw new IllegalArgumentException("Incorrect value when creating waypoint: " + s);
+            log.error("Niepoprawna wartosc podana do tworzenia punktu: [{}]", s);
+            System.exit(0);
         }
 
         double lat = Double.valueOf(split[0].trim());

@@ -17,15 +17,19 @@ public class PointInAreaCommons {
             .orElse(null);
     }
 
-    public List<Waypoint> getAllPointsInAreaAndAround(Area area, List<Waypoint> waypoints) {
-        List<Waypoint> selectedWaypoints = waypoints.stream()
+    public List<Waypoint> getAllPointsInArea(Area area, List<Waypoint> waypoints) {
+        return waypoints.stream()
             .filter(waypoint -> isPointInArea(area, waypoint))
             .sorted(new WaypointComparator())
             .collect(Collectors.toList());
+    }
+
+    public List<Waypoint> getAllPointsInAreaAndAround(Area area, List<Waypoint> waypoints) {
+        List<Waypoint> selectedWaypoints = getAllPointsInArea(area, waypoints);
         return addBeforeAndAfterPoints(selectedWaypoints, waypoints);
     }
 
-    private List<Waypoint> addBeforeAndAfterPoints(List<Waypoint> selectedWaypoints, List<Waypoint> allWaypoints) {
+    public List<Waypoint> addBeforeAndAfterPoints(List<Waypoint> selectedWaypoints, List<Waypoint> allWaypoints) {
         List<Waypoint> result = new ArrayList<>();
         Waypoint before = null;
         Waypoint after = null;
