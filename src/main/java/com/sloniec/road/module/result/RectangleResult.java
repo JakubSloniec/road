@@ -6,21 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-public class RectangleSpeedResult implements IResult {
+public class RectangleResult implements IResult {
     private String file;
     private Waypoint beginningWaypoint;
     private Double step;
-    private List<SingeSpeedResult> beforeSpeeds;
+    private List<SingleRectangleResult> speeds;
 
-    public RectangleSpeedResult(String file, Double step, Waypoint beginningWaypoint) {
+    public RectangleResult(String file, Waypoint beginningWaypoint, Double step) {
         this.file = file;
-        this.step = step;
         this.beginningWaypoint = beginningWaypoint;
-        beforeSpeeds = new ArrayList<>();
+        this.step = step;
+        this.speeds = new ArrayList<>();
     }
 }
