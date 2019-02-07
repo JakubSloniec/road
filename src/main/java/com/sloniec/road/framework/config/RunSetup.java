@@ -20,7 +20,7 @@ import com.sloniec.road.module.processor.SpeedProcessor;
 import com.sloniec.road.module.reader.StravaFileReader;
 import com.sloniec.road.module.reader.WaveloFileReader;
 import com.sloniec.road.module.saver.GateResultSaver;
-import com.sloniec.road.module.saver.RectangleSpeedResultSaver;
+import com.sloniec.road.module.saver.RectangleResultSaver;
 import com.sloniec.road.module.saver.SpeedResultSaver;
 import com.sloniec.road.module.selector.GateSelector;
 import com.sloniec.road.module.selector.RectangleSelector;
@@ -94,7 +94,7 @@ public class RunSetup {
         } else if (PRZEPUST.equals(processingType)) {
             return new GateResultSaver();
         } else if (PROSTOKAT.equals(processingType)) {
-            return new RectangleSpeedResultSaver();
+            return new RectangleResultSaver();
         }
         return null;
     }
