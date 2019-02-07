@@ -8,8 +8,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public class SingeSpeedResult {
-
+public class SingleSpeedResult {
     private Double value;
     private Date time;
 }
