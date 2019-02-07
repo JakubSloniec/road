@@ -1,6 +1,6 @@
 package com.sloniec.road.module.saver;
 
-import com.sloniec.road.module.result.SingeSpeedResult;
+import com.sloniec.road.module.result.SingleSpeedResult;
 import com.sloniec.road.module.result.SpeedResult;
 import com.sloniec.road.shared.commons.TimeCommons;
 import java.util.ArrayList;
@@ -29,9 +29,10 @@ public class SpeedResultSaver extends AbstractSaver<SpeedResult> {
         return preColumns;
     }
 
-    private List<List<String>> speedResultsToString(List<String> preColumns, String place, List<SingeSpeedResult> speedResults) {
+    private List<List<String>> speedResultsToString(List<String> preColumns, String place,
+        List<SingleSpeedResult> speedResults) {
         List<List<String>> all = new ArrayList<>();
-        for (SingeSpeedResult speedResult : speedResults) {
+        for (SingleSpeedResult speedResult : speedResults) {
             List<String> single = new ArrayList<>();
             single.addAll(preColumns);
             single.add(place);

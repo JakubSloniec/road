@@ -6,7 +6,6 @@ import static java.util.stream.Collectors.toList;
 
 import com.sloniec.road.module.result.GateResult;
 import com.sloniec.road.shared.Context;
-import com.sloniec.road.shared.commons.FileCommons;
 import com.sloniec.road.shared.commons.GpxFileReader;
 import com.sloniec.road.shared.commons.Segment;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
@@ -20,8 +19,6 @@ public class GateProcessor extends AbstractProcessor<GateResult> {
 
     @Override
     List<GateResult> processFile(String file) {
-        FileCommons.checkIfIsFile(file);
-
         List<Waypoint> waypoints = reader.getWaypoints(file);
 
         Segment gate = Context.getGate();

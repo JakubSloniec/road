@@ -16,9 +16,9 @@ public class SpeedResult implements IResult {
     private String file;
     private Waypoint beginningWaypoint;
     private Double step;
-    private List<SingeSpeedResult> beforeSpeeds;
-    private List<SingeSpeedResult> duringSpeeds;
-    private List<SingeSpeedResult> afterSpeeds;
+    private List<SingleSpeedResult> beforeSpeeds;
+    private List<SingleSpeedResult> duringSpeeds;
+    private List<SingleSpeedResult> afterSpeeds;
 
     public SpeedResult(String file, Double step, Waypoint beginningWaypoint) {
         this.file = file;

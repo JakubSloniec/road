@@ -2,18 +2,20 @@ package com.sloniec.road.module.processor;
 
 import static com.sloniec.road.shared.Context.getFilterSwitchRecordsPerRegion;
 import static com.sloniec.road.shared.Context.getFilterValueRecordsPerRegion;
+import static com.sloniec.road.shared.commons.InterpolationCommons.generateResults;
+import static com.sloniec.road.shared.commons.InterpolationCommons.interpolatedFunction;
 import static java.util.Arrays.asList;
 
-import com.sloniec.road.module.result.SingeSpeedResult;
+import com.sloniec.road.module.result.SingleSpeedResult;
 import com.sloniec.road.module.result.SpeedResult;
 import com.sloniec.road.shared.Context;
-import com.sloniec.road.shared.commons.FileCommons;
 import com.sloniec.road.shared.commons.GpxFileReader;
 import com.sloniec.road.shared.commons.PointInAreaCommons;
-import com.sloniec.road.shared.commons.SpeedCommons;
+import com.sloniec.road.shared.commons.TimeCommons;
 import com.sloniec.road.shared.gpxparser.modal.Waypoint;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 
 @Slf4j
@@ -32,7 +34,6 @@ public class SpeedProcessor extends AbstractProcessor<SpeedResult> {
 
     @Override
     List<SpeedResult> processFile(String file) {
-        FileCommons.checkIfIsFile(file);
         try {
             List<Waypoint> waypoints = reader.getWaypoints(file);
             SpeedResult result = new SpeedResult(file, Context.getStep(), waypoints.get(0));
@@ -60,9 +61,11 @@ public class SpeedProcessor extends AbstractProcessor<SpeedResult> {
         return getFilterSwitchRecordsPerRegion();
     }
 
-    private List<SingeSpeedResult> getSpeeds(List<Waypoint> waypoints) throws NonMonotonicSequenceException {
-        SpeedCommons commons = new SpeedCommons(waypoints, Context.getStep());
-        return commons.calculateSpeeds();
+    private List<SingleSpeedResult> getSpeeds(List<Waypoint> waypoints) throws NonMonotonicSequenceException {
+        UnivariateFunction function = interpolatedFunction(waypoints);
+        Double begin = TimeCommons.halfBetween(waypoints.get(0), waypoints.get(1));
+        Double end = TimeCommons.halfBetween(waypoints.get(waypoints.size() - 2), waypoints.get(waypoints.size() - 1));
+        return generateResults(function, begin, end);
     }
 
     @Override
