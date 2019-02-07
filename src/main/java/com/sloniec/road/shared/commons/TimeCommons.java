@@ -22,6 +22,11 @@ public class TimeCommons {
         return (to.getTime() - from.getTime()) / 1000d;
     }
 
+    public static Double getTime(Waypoint waypoint) {
+        Long time = waypoint.getTime().getTime();
+        return time.doubleValue();
+    }
+
     public static String getCurrentTimeStamp() {
         return dateToString(Calendar.getInstance().getTime());
     }
