@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.sloniec.road.framework.interf.IProcessor;
 import com.sloniec.road.framework.interf.IResult;
+import com.sloniec.road.shared.commons.FileCommons;
 import com.sloniec.road.shared.commons.GpxFileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public abstract class AbstractProcessor<T extends IResult> implements IProcessor {
 
     protected GpxFileReader reader;
-    protected int incorrectResults = 0;
+    private int incorrectResults = 0;
 
     public AbstractProcessor(GpxFileReader reader) {
         this.reader = reader;
@@ -25,7 +26,7 @@ public abstract class AbstractProcessor<T extends IResult> implements IProcessor
         log.info("Liczba danych do procesowania: [{}]", files.size());
 
         List<T> results = files.stream()
-            .map(this::processFile)
+            .map(this::verifyAndProcess)
             .filter(Objects::nonNull)
             .flatMap(List::stream)
             .filter(Objects::nonNull)
@@ -38,7 +39,13 @@ public abstract class AbstractProcessor<T extends IResult> implements IProcessor
         return results;
     }
 
-    protected List<T> verifyResults(List<T> results) {
+    abstract List<T> processFile(String file);
+
+    abstract boolean shouldVerifyResult();
+
+    abstract boolean verifyResult(T result);
+
+    private List<T> verifyResults(List<T> results) {
         if (shouldVerifyResult()) {
             List<T> verifiedResults = new ArrayList<>();
             for (T result : results) {
@@ -53,9 +60,8 @@ public abstract class AbstractProcessor<T extends IResult> implements IProcessor
         return results;
     }
 
-    abstract List<T> processFile(String file);
-
-    abstract boolean shouldVerifyResult();
-
-    abstract boolean verifyResult(T result);
+    private List<T> verifyAndProcess(String file) {
+        FileCommons.checkIfIsFile(file);
+        return processFile(file);
+    }
 }
