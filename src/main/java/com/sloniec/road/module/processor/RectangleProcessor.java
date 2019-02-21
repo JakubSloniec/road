@@ -86,9 +86,11 @@ public class RectangleProcessor extends AbstractProcessor<RectangleResult> {
             .skip(1)
             .map(result -> {
                 int index = singleSpeedResults.indexOf(result);
-                Double acceleration =
-                    (result.getValue() - singleRectangleResults.get(index - 1).getValue()) / Context.getStep();
-                return new SingleRectangleResult(result.getValue(), result.getTime(), acceleration);
+                Double v2 = result.getValue();
+                Double v1 = singleRectangleResults.get(index - 1).getValue();
+                double dt = Context.getStep() * 1000;
+                Double acceleration = (v2 - v1) / dt;
+                return new SingleRectangleResult(v2, result.getTime(), acceleration);
             })
             .forEach(singleRectangleResults::add);
         return singleRectangleResults;
